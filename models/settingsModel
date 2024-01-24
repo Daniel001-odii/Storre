@@ -1,0 +1,38 @@
+const mongoose = require('mongoose');
+
+// Define the User Settings schema with the added 'currency' field
+const userSettingsSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  notificationSettings: {
+    emailNotifications: { type: Boolean, default: true },
+    pushNotifications: { type: Boolean, default: true },
+    newsletterSubscription: { type: Boolean, default: false }
+  },
+  subscriptionSettings: {
+    type: String,
+    enum: ['basic', 'premium'],
+    default: 'basic'
+  },
+  privacySettings: {
+    profileVisibility: { type: String, enum: ['public', 'private', 'friends'], default: 'public' },
+    activityLogVisibility: { type: String, enum: ['visible', 'hidden'], default: 'visible' }
+  },
+  themeSettings: {
+    preferredTheme: { type: String, default: 'light' },
+    customColors: {
+      primaryColor: String,
+      secondaryColor: String
+    }
+  },
+  currency: {
+    type: String,
+    enum: ['USD', 'EUR', 'GBP', 'NGN'],
+    default: 'NGN'
+  }
+});
+
+// Define the UserSettings model based on the updated schema
+const UserSettings = mongoose.model('UserSettings', userSettingsSchema);
+
+module.exports = UserSettings;
+// Export the UserSettings mod
